@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsApp.Themes;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -53,6 +55,14 @@ public class NewsAppDbContext :
 
     #endregion
 
+    #region Entidades de dominio
+
+    public DbSet<Theme> Themes { get; set; }
+
+
+
+    #endregion
+
     public NewsAppDbContext(DbContextOptions<NewsAppDbContext> options)
         : base(options)
     {
@@ -82,5 +92,16 @@ public class NewsAppDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+
+
+        //Entidad Theme
+        builder.Entity<Theme>(b => //si queremos definir a mas grado de detalle el mapeo entre lo que es la informacion de la entidad con lo que
+        //va a persistir en la base de datos, se define aca
+        {
+            b.ToTable(NewsAppConsts.DbTablePrefix + "Themes", NewsAppConsts.DbSchema);//aca definimos que la tabla tiene un prefijo que es app para diferenciar las tablas de la aplicacion con las tablas del framework
+            b.ConfigureByConvention(); //se configura por convencion.
+            b.Property(x => x.Name).IsRequired().HasMaxLength(128); // estamos diciendo que es requido es decir que no puede ser nula y tiene un largo maximo de 128
+        });
     }
 }
