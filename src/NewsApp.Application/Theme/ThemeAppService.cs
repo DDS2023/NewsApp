@@ -14,11 +14,14 @@ namespace NewsApp.Themes
     {
 
         //Lo que esta aca tmb hereda del crud
-
-        public ThemeAppService(IRepository<Theme, int> repository)
+      
+        public ThemeAppService(IRepository<Theme, int> repository)  //IRepository permite interactuar con la BDD para consultar o persistir
             : base(repository)
         { 
             
         }
+
+
+
     }
 }
