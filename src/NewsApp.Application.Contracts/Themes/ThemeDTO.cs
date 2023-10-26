@@ -7,6 +7,7 @@ namespace NewsApp.Themes
 {
     public class ThemeDTO: EntityDto <int> 
     {
-        public string Name { get; set }
+        public string Descripcion { get; set }
+        public string Etiqueta { get; set; }
     }
 }

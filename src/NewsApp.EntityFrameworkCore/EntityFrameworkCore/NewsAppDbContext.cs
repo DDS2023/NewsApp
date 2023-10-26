@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsApp.Newss;
 using NewsApp.Themes;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -58,6 +59,7 @@ public class NewsAppDbContext :
     #region Entidades de dominio
 
     public DbSet<Theme> Themes { get; set; }
+    public DbSet<New> News { get; set; }
 
 
 
@@ -103,6 +105,16 @@ public class NewsAppDbContext :
             b.ConfigureByConvention(); //se configura por convencion.
             b.Property(x => x.Descripcion).IsRequired().HasMaxLength(128); // estamos diciendo que es requido es decir que no puede ser nula y tiene un largo maximo de 128
             b.Property(x => x.Etiquetas);
+        });
+
+        builder.Entity<New>(b =>
+        {
+            b.ToTable(NewsAppConsts.DbTablePrefix + "News", NewsAppConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Titular).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Cuerpo).IsRequired();
+            b.Property(x => x.Idioma).IsRequired().HasMaxLength(10);
+            b.Property(x => x.Fecha).IsRequired().HasMaxLength(20);
         });
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewsApp.Newss;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace NewsApp.Themes
     {
         public string Descripcion { get; set; }
         public string Etiquetas { get; set; }
+
+        public ICollection<New> News { get; set;}
     }
 }
