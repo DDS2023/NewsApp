@@ -101,7 +101,8 @@ public class NewsAppDbContext :
         {
             b.ToTable(NewsAppConsts.DbTablePrefix + "Themes", NewsAppConsts.DbSchema);//aca definimos que la tabla tiene un prefijo que es app para diferenciar las tablas de la aplicacion con las tablas del framework
             b.ConfigureByConvention(); //se configura por convencion.
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128); // estamos diciendo que es requido es decir que no puede ser nula y tiene un largo maximo de 128
+            b.Property(x => x.Descripcion).IsRequired().HasMaxLength(128); // estamos diciendo que es requido es decir que no puede ser nula y tiene un largo maximo de 128
+            b.Property(x => x.Etiquetas);
         });
     }
 }

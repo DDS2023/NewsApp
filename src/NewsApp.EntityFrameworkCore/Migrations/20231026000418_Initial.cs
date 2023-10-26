@@ -371,6 +371,20 @@ namespace NewsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppThemes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Etiquetas = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppThemes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -1049,6 +1063,9 @@ namespace NewsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AppThemes");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");

@@ -9,6 +9,7 @@ namespace NewsApp.Themes
 {
     public class Theme : Entity<int>
     {
-        public string Name { get; set; }
+        public string Descripcion { get; set; }
+        public string Etiquetas { get; set; }
     }
 }
