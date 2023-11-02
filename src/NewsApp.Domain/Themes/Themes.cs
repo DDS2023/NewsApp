@@ -1,4 +1,6 @@
-﻿using NewsApp.Newss;
+﻿using NewsApp.CategoriesTheme;
+using NewsApp.Newss;
+using NewsApp.RelationNewThemes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,12 @@ namespace NewsApp.Themes
 {
     public class Theme : Entity<int>
     {
-        public string Descripcion { get; set; }
-        public string Etiquetas { get; set; }
+        public CategoryEnum Etiqueta { get; set; }
+        public string Descripcion { get; set; } //necesario?
 
-        public ICollection<New> News { get; set;}
+
+        public ICollection<New> Noticias { get; set; }
+        //  public ICollection<NewThemes> NoticiaTemas { get; set; }
+
     }
 }

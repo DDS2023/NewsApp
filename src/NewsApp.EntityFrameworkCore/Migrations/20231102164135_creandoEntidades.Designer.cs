@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace NewsApp.Migrations
 {
     [DbContext(typeof(NewsAppDbContext))]
-    [Migration("20231026000418_Initial")]
-    partial class Initial
+    [Migration("20231102164135_creandoEntidades")]
+    partial class creandoEntidades
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,105 @@ namespace NewsApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("NewsApp.Alerts.Alert", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AlertaBusquedaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Hora")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlertaBusquedaId")
+                        .IsUnique();
+
+                    b.ToTable("AppAlerts", (string)null);
+                });
+
+            modelBuilder.Entity("NewsApp.BusquedaNoticia.SearchNews", b =>
+                {
+                    b.Property<int>("BusquedaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoticiaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BusquedaId", "NoticiaId");
+
+                    b.HasIndex("NoticiaId");
+
+                    b.ToTable("SearchNews");
+                });
+
+            modelBuilder.Entity("NewsApp.Newss.New", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cuerpo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasMaxLength(20)
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("Idioma")
+                        .HasMaxLength(10)
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("TemaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titular")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TemaId");
+
+                    b.ToTable("AppNews", (string)null);
+                });
+
+            modelBuilder.Entity("NewsApp.Searches.Search", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cadena")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBusqueda")
+                        .HasMaxLength(128)
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Resultado")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppSearches", (string)null);
+                });
+
             modelBuilder.Entity("NewsApp.Themes.Theme", b =>
                 {
                     b.Property<int>("Id")
@@ -37,12 +136,11 @@ namespace NewsApp.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("Etiquetas")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte>("Etiqueta")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -1705,6 +1803,45 @@ namespace NewsApp.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("NewsApp.Alerts.Alert", b =>
+                {
+                    b.HasOne("NewsApp.Searches.Search", "Busqueda")
+                        .WithOne("Alerta")
+                        .HasForeignKey("NewsApp.Alerts.Alert", "AlertaBusquedaId");
+
+                    b.Navigation("Busqueda");
+                });
+
+            modelBuilder.Entity("NewsApp.BusquedaNoticia.SearchNews", b =>
+                {
+                    b.HasOne("NewsApp.Searches.Search", "Busqueda")
+                        .WithMany("BusquedaNoticias")
+                        .HasForeignKey("BusquedaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NewsApp.Newss.New", "Noticia")
+                        .WithMany("BusquedaNoticias")
+                        .HasForeignKey("NoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Busqueda");
+
+                    b.Navigation("Noticia");
+                });
+
+            modelBuilder.Entity("NewsApp.Newss.New", b =>
+                {
+                    b.HasOne("NewsApp.Themes.Theme", "Tema")
+                        .WithMany("Noticias")
+                        .HasForeignKey("TemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tema");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -1845,6 +1982,24 @@ namespace NewsApp.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NewsApp.Newss.New", b =>
+                {
+                    b.Navigation("BusquedaNoticias");
+                });
+
+            modelBuilder.Entity("NewsApp.Searches.Search", b =>
+                {
+                    b.Navigation("Alerta")
+                        .IsRequired();
+
+                    b.Navigation("BusquedaNoticias");
+                });
+
+            modelBuilder.Entity("NewsApp.Themes.Theme", b =>
+                {
+                    b.Navigation("Noticias");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

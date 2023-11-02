@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NewsApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class creandoEntidades : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -371,13 +371,28 @@ namespace NewsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppSearches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FechaBusqueda = table.Column<DateTime>(type: "datetime2", maxLength: 128, nullable: false),
+                    Resultado = table.Column<bool>(type: "bit", nullable: false),
+                    Cadena = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppSearches", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppThemes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Etiquetas = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Etiqueta = table.Column<byte>(type: "tinyint", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -677,6 +692,49 @@ namespace NewsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppAlerts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Hora = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estado = table.Column<bool>(type: "bit", nullable: false),
+                    AlertaBusquedaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppAlerts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppAlerts_AppSearches_AlertaBusquedaId",
+                        column: x => x.AlertaBusquedaId,
+                        principalTable: "AppSearches",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppNews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titular = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Cuerpo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", maxLength: 20, nullable: false),
+                    Idioma = table.Column<byte>(type: "tinyint", maxLength: 10, nullable: false),
+                    TemaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppNews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppNews_AppThemes_TemaId",
+                        column: x => x.TemaId,
+                        principalTable: "AppThemes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
@@ -727,6 +785,30 @@ namespace NewsApp.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SearchNews",
+                columns: table => new
+                {
+                    BusquedaId = table.Column<int>(type: "int", nullable: false),
+                    NoticiaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SearchNews", x => new { x.BusquedaId, x.NoticiaId });
+                    table.ForeignKey(
+                        name: "FK_SearchNews_AppNews_NoticiaId",
+                        column: x => x.NoticiaId,
+                        principalTable: "AppNews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SearchNews_AppSearches_BusquedaId",
+                        column: x => x.BusquedaId,
+                        principalTable: "AppSearches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -965,6 +1047,17 @@ namespace NewsApp.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppAlerts_AlertaBusquedaId",
+                table: "AppAlerts",
+                column: "AlertaBusquedaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppNews_TemaId",
+                table: "AppNews",
+                column: "TemaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -993,6 +1086,11 @@ namespace NewsApp.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SearchNews_NoticiaId",
+                table: "SearchNews",
+                column: "NoticiaId");
         }
 
         /// <inheritdoc />
@@ -1065,13 +1163,16 @@ namespace NewsApp.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AppThemes");
+                name: "AppAlerts");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
+
+            migrationBuilder.DropTable(
+                name: "SearchNews");
 
             migrationBuilder.DropTable(
                 name: "AbpEntityChanges");
@@ -1092,10 +1193,19 @@ namespace NewsApp.Migrations
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
+                name: "AppNews");
+
+            migrationBuilder.DropTable(
+                name: "AppSearches");
+
+            migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "AppThemes");
         }
     }
 }
