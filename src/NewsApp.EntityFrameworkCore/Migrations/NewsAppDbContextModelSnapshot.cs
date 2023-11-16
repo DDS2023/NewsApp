@@ -61,7 +61,7 @@ namespace NewsApp.Migrations
 
                     b.HasIndex("NoticiaId");
 
-                    b.ToTable("SearchNews");
+                    b.ToTable("SearchNews", (string)null);
                 });
 
             modelBuilder.Entity("NewsApp.Newss.New", b =>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsApp.Users;
 using Shouldly;
 using System;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace NewsApp.EntityFrameworkCore.Samples;
  */
 public class SampleRepositoryTests : NewsAppEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<ApplicationUser, Guid> _appUserRepository;
 
     public SampleRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _appUserRepository = GetRequiredService<IRepository<ApplicationUser, Guid>>();
     }
 
     [Fact]

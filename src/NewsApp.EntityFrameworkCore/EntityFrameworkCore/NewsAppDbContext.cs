@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsApp.Alerts;
 using NewsApp.BusquedaNoticia;
+using NewsApp.List;
 using NewsApp.Newss;
 using NewsApp.RelationNewThemes;
 using NewsApp.Searches;
 using NewsApp.Themes;
+using NewsApp.Users;
+using Scriban.Runtime.Accessors;
 using System.Reflection.Emit;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -28,7 +31,7 @@ namespace NewsApp.EntityFrameworkCore;
 [ConnectionStringName("Default")]
 public class NewsAppDbContext :
     AbpDbContext<NewsAppDbContext>,
-    IIdentityDbContext,
+    IIdentityDbContext,                      
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
@@ -47,7 +50,7 @@ public class NewsAppDbContext :
      */
 
     //Identity
-    public DbSet<IdentityUser> Users { get; set; }
+    public DbSet<ApplicationUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
     public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
@@ -69,6 +72,8 @@ public class NewsAppDbContext :
     public DbSet<New> News { get; set; }
     public DbSet<Search> Searches { get; set; }
     public DbSet<SearchNews> SearchNews { get; set; }
+
+    public DbSet<Lista> Lists { get; set; }
 
     #endregion
 
@@ -136,6 +141,10 @@ public class NewsAppDbContext :
                .HasForeignKey(sc => sc.TemaId);
 
         //Relacion con lista
+        builder.Entity<New>()
+               .HasOne<Lista>(sc => sc.Lista)
+               .WithMany(s => s.ListaNoticias)
+               .HasForeignKey(sc => sc.ListaId);
 
         //Relacion con ApiNews
 
@@ -193,6 +202,11 @@ public class NewsAppDbContext :
            .IsRequired(false);
 
         //Relacion busqueda con usuario
+        builder.Entity<Search>()
+           .HasOne<ApplicationUser>(ad => ad.Usuario)
+           .WithMany(s => s.Busquedas)
+           .HasForeignKey(a => a.UsuarioID)
+           .IsRequired();
 
         #endregion
 
@@ -214,5 +228,23 @@ public class NewsAppDbContext :
                .HasForeignKey(sc => sc.NoticiaId);
 
         #endregion
+
+
+
+        #region Lista
+
+        builder.Entity<Lista>(b =>
+        {
+            b.ToTable(NewsAppConsts.DbTablePrefix + "List", NewsAppConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Nombre).IsRequired().HasMaxLength(128);
+            //Listas con sublistas
+            b.HasMany(x => x.SubLista)
+             .WithOne(x => x.ListaPadre)
+             .HasForeignKey(x => x.ListaPadreId)
+             .IsRequired(false);
+        });
+
+        #endregion 
     }
 }
