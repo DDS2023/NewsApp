@@ -50,7 +50,8 @@ public class NewsAppDbContext :
      */
 
     //Identity
-    public DbSet<ApplicationUser> Users { get; set; }
+    public DbSet<ApplicationUser> Usuario { get; set; } 
+    public DbSet<IdentityUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
     public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
