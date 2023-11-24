@@ -1,9 +1,12 @@
 ﻿using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
+using NewsApp.Languages;
+using NewsApp.News;
 using NewsApp.Users;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,16 +23,17 @@ namespace NewsApp.NewsApi
 
         public async Task<ICollection<NewDto>> GetNewsAsync(string query)
         {
-            ICollection<NewDto> responseList = new List<NewDto>();            
+            ICollection<NewDto> responseList = new List<NewDto>();
 
             // init with your API key
-            var newsApiClient = new NewsApiClient("264d2ab426e84225813a7e70fe615677");
+
+            var newsApiClient = new NewsApiClient("235131e1fde046de9b5e0516273800f4");
             var articlesResponse = await newsApiClient.GetEverythingAsync(new EverythingRequest
             {
                 Q = query,
                 SortBy = SortBys.Popularity,
                 Language = NewsAPI.Constants.Languages.EN,
-                
+
                 //Language = (NewsAPI.Constants.Languages?)usuario.Idioma,
 
 

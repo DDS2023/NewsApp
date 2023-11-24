@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NewsApp.News
 {
-    public enum Idioma: byte
+    public enum Idiomas: byte
     {
         es,en,fr
     }

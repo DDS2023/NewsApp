@@ -17,7 +17,7 @@ namespace NewsApp.Newss
         public string Titular { get; set; }
         public string Cuerpo { get; set; }
         public DateTime Fecha { get; set; }
-        public Idioma Idioma { get; set; }
+        public Idiomas Idioma { get; set; }
         public int TemaId { get; set; }
         public Theme Tema { get; set; }
 
