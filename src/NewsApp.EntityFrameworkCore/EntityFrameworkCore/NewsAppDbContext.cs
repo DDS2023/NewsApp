@@ -31,7 +31,7 @@ namespace NewsApp.EntityFrameworkCore;
 [ConnectionStringName("Default")]
 public class NewsAppDbContext :
     AbpDbContext<NewsAppDbContext>,
-    IIdentityDbContext,                      
+    IIdentityDbContext,         /////////               
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
@@ -203,13 +203,23 @@ public class NewsAppDbContext :
            .IsRequired(false);
 
         //Relacion busqueda con usuario
+
+        
         builder.Entity<Search>()
            .HasOne<ApplicationUser>(ad => ad.Usuario)
            .WithMany(s => s.Busquedas)
            .HasForeignKey(a => a.UsuarioID)
            .IsRequired();
-
+        
+        /*
+        builder.Entity<Search>()
+               .HasOne<ApplicationUser>(ad => ad.Usuario)
+               .WithMany(s => s.Busquedas)
+               .HasPrincipalKey(u => u.Id);
+        */
         #endregion
+        
+       
 
         #region Entidad SearchNews
 
