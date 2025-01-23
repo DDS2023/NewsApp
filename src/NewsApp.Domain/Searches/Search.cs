@@ -28,7 +28,7 @@ namespace NewsApp.Searches
         public ICollection<SearchNews> BusquedaNoticias { get; set; }
 
         //Relacion 1 a * con Usuario
-        public int UsuarioID { get; set; }
+        public Guid UsuarioID { get; set; }
         public ApplicationUser Usuario {  get; set; }
     }
 }

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace NewsApp.Newss
+namespace NewsApp.News
 {
     public class New : Entity<int>
     {

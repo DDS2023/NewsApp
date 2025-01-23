@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NewsApp.List;
+using NewsApp.Lists;
 using NewsApp.Users;
 using System;
 using System.Collections.Generic;
@@ -15,16 +15,16 @@ namespace NewsApp.Lists
 {
     public class ListManager : DomainService
     {
-        private readonly IRepository<Lista, int> _repository;
-        public ListManager(IRepository<Lista, int> repository)
+        private readonly IRepository<List, int> _repository;
+        public ListManager(IRepository<List, int> repository)
         {
             
             _repository = repository;
         }
 
-        public async Task<Lista> CreateAsyncOrUpdate(int? id, string name, int? parentId, ApplicationUser applicationUser)
+        public async Task<List> CreateAsyncOrUpdate(int? id, string name, int? parentId, ApplicationUser applicationUser)
         {
-            Lista lista = null;
+            List lista = null;
 
             if (id is not null)
             {

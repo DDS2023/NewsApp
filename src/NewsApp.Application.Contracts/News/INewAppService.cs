@@ -7,6 +7,6 @@ namespace NewsApp.News
 {
     public interface INewsAppService
     {
-        Task<ICollection<NewsDto>> Search(string query);
+        Task<ICollection<NewDto>> Search(string query);
     }
 }

@@ -1,4 +1,4 @@
-﻿using NewsApp.Newss;
+﻿using NewsApp.News;
 using NewsApp.Users;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Identity;
 
-namespace NewsApp.List
+namespace NewsApp.Lists
 {
     public class Lista : Entity<int>
     {

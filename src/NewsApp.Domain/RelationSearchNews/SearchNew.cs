@@ -1,21 +1,17 @@
-﻿using NewsApp.Newss;
+﻿using NewsApp.News;
 using NewsApp.Searches;
-using NewsApp.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-// POR AHORA NO SE USA
-namespace NewsApp.RelationNewThemes
+namespace NewsApp.RelationSearchNews
 {
-    public class NewThemes
+    public class SearchNew
     {
-        public int TemaId { get; set; }
-        public Theme Tema { get; set; }
-
+        public int BusquedaId { get; set; }
+        public Search Busqueda { get; set; }
         public int NoticiaId { get; set; }
         public New Noticia { get; set; }
     }
