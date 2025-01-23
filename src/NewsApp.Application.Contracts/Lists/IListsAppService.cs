@@ -9,10 +9,10 @@ namespace NewsApp.Lists
 {
     public interface IListsAppService : IApplicationService
     {
-        Task<ICollection<ListsDto>> GetListsAsync();
+        Task<ICollection<ListaDto>> GetListsAsync();
 
-        Task<ListsDto> GetListsAsync(int id);
+        Task<ListaDto> GetListsAsync(int id);
 
-        Task<ListsDto> CreateAsync(CretateListsDto input);
+        Task<ListaDto> CreateAsync(CretateListsDto input);
     }
 }

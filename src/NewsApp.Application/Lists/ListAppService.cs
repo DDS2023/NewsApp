@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using NewsApp.List;
+using NewsApp.Lists;
 using NewsApp.Permissions;
 using NewsApp.Users;
 using System;
@@ -30,14 +30,14 @@ namespace NewsApp.Lists
             _listManager = listManager;
         }
 
-        public async Task<ICollection<ListsDto>> GetListsAsync()
+        public async Task<ICollection<ListaDto>> GetListsAsync()
         {
             var lists = await _repository.GetListAsync(includeDetails: true);
 
-            return ObjectMapper.Map<ICollection<Lista>, ICollection<ListsDto>>(lists);
+            return ObjectMapper.Map<ICollection<Lista>, ICollection<ListaDto>>(lists);
         }
 
-        public async Task<ListsDto> GetListsAsync(int id)
+        public async Task<ListaDto> GetListsAsync(int id)
         {
             var queryable = await _repository.WithDetailsAsync(x => x.ListaNoticias);
 
@@ -45,11 +45,11 @@ namespace NewsApp.Lists
 
             var lista = await AsyncExecuter.FirstOrDefaultAsync(query);
 
-            return ObjectMapper.Map<Lista, ListsDto>(lista);
+            return ObjectMapper.Map<Lista, ListaDto>(lista);
 
         }
 
-        public async Task<ListsDto> CreateAsync(CretateListsDto input)
+        public async Task<ListaDto> CreateAsync(CretateListsDto input)
         {
             var userGuid = CurrentUser.Id.GetValueOrDefault();
 
@@ -66,7 +66,7 @@ namespace NewsApp.Lists
                 await _repository.UpdateAsync(lista, autoSave: true);
             }
 
-            return ObjectMapper.Map<Lista, ListsDto>(lista);
+            return ObjectMapper.Map<Lista, ListaDto>(lista);
         }
     }
 }

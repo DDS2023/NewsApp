@@ -1,5 +1,5 @@
-﻿using NewsApp.BusquedaNoticia;
-using NewsApp.List;
+﻿using NewsApp.RelationSearchNews;
+using NewsApp.Lists;
 using NewsApp.News;
 using NewsApp.RelationNewThemes;
 using NewsApp.Themes;
@@ -24,7 +24,7 @@ namespace NewsApp.News
         public  Lista Lista { get; set; }
 
         public int ListaId { get; set; }
-        public ICollection<SearchNews> BusquedaNoticias { get; set; }
+        public ICollection<SearchNew> BusquedaNoticias { get; set; }
 
      
 

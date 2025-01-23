@@ -1,6 +1,6 @@
 ﻿using NewsApp.Alerts;
-using NewsApp.BusquedaNoticia;
-using NewsApp.Newss;
+using NewsApp.RelationSearchNews;
+using NewsApp.News;
 using NewsApp.Users;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace NewsApp.Searches
         public Alert Alerta { get; set; }       //COMO ES RELACION UNO A UNO TENGO QUE DEFINIR LOS ID
 
         //Relacion * a * con Busqueda
-        public ICollection<SearchNews> BusquedaNoticias { get; set; }
+        public ICollection<SearchNew> BusquedaNoticias { get; set; }
 
         //Relacion 1 a * con Usuario
         public Guid UsuarioID { get; set; }

@@ -1,5 +1,5 @@
 ﻿using NewsApp.Languages;
-using NewsApp.List;
+using NewsApp.Lists;
 using NewsApp.Searches;
 using System;
 using System.Collections.Generic;

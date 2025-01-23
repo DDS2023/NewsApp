@@ -1,5 +1,5 @@
 ﻿using NewsApp.CategoriesTheme;
-using NewsApp.Newss;
+using NewsApp.News;
 using NewsApp.RelationNewThemes;
 using System;
 using System.Collections.Generic;

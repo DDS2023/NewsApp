@@ -15,6 +15,6 @@ namespace NewsApp.Users
 
         public LanguageEnum Idioma { get; set; }
         public ICollection<SearchDto> Busquedas { get; set; }
-        public ICollection<ListsDto> Listas { get; set; }
+        public ICollection<ListaDto> Listas { get; set; }
     }
 }

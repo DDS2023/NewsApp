@@ -4,7 +4,7 @@ using System.Text;
 using NewsApp.Users;
 using Volo.Abp.Application.Dtos;
 using NewsApp.Alerts;
-using NewsApp.SearchNews;
+using NewsApp.RelationSearchNews;
 
 namespace NewsApp.Searches
 {

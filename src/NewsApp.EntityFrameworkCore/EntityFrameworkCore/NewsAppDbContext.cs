@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsApp.Alerts;
-using NewsApp.BusquedaNoticia;
-using NewsApp.List;
-using NewsApp.Newss;
+using NewsApp.RelationSearchNews;
+using NewsApp.Lists;
+using NewsApp.News;
 using NewsApp.RelationNewThemes;
 using NewsApp.Searches;
 using NewsApp.Themes;
@@ -72,7 +72,7 @@ public class NewsAppDbContext :
     public DbSet<Alert> Alerts { get; set; }
     public DbSet<New> News { get; set; }
     public DbSet<Search> Searches { get; set; }
-    public DbSet<SearchNews> SearchNews { get; set; }
+    public DbSet<SearchNew> SearchNews { get; set; }
 
     public DbSet<Lista> Lists { get; set; }
 
@@ -224,16 +224,16 @@ public class NewsAppDbContext :
         #region Entidad SearchNews
 
         //Atributos SearchNews
-        builder.Entity<SearchNews>().HasKey(sc => new { sc.BusquedaId, sc.NoticiaId });
+        builder.Entity<SearchNew>().HasKey(sc => new { sc.BusquedaId, sc.NoticiaId });
 
         //Relacion SearchNews con Search
-        builder.Entity<SearchNews>()
+        builder.Entity<SearchNew>()
                .HasOne<Search>(sc => sc.Busqueda)
                .WithMany(s => s.BusquedaNoticias)
                .HasForeignKey(sc => sc.BusquedaId);
 
         //Relacion SearchNews con New
-        builder.Entity<SearchNews>()
+        builder.Entity<SearchNew>()
                .HasOne<New>(sc => sc.Noticia)
                .WithMany(s => s.BusquedaNoticias)
                .HasForeignKey(sc => sc.NoticiaId);

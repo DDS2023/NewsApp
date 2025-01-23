@@ -12,6 +12,6 @@ namespace NewsApp.RelationSearchNews
         public int BusquedaId { get; set; }
         public SearchDto Busqueda { get; set; }
         public int NoticiaId { get; set; }
-        public NewsDto Noticia { get; set; }
+        public NewDto Noticia { get; set; }
     }
 }

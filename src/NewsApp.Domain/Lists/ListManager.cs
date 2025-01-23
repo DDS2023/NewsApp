@@ -15,16 +15,16 @@ namespace NewsApp.Lists
 {
     public class ListManager : DomainService
     {
-        private readonly IRepository<List, int> _repository;
-        public ListManager(IRepository<List, int> repository)
+        private readonly IRepository<Lista, int> _repository;
+        public ListManager(IRepository<Lista, int> repository)
         {
             
             _repository = repository;
         }
 
-        public async Task<List> CreateAsyncOrUpdate(int? id, string name, int? parentId, ApplicationUser applicationUser)
+        public async Task<Lista> CreateAsyncOrUpdate(int? id, string name, int? parentId, ApplicationUser applicationUser)
         {
-            List lista = null;
+            Lista lista = null;
 
             if (id is not null)
             {
